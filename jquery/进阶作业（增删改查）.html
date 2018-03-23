@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹出输入，增删改查</title>
+    <script src="jquery_js.js"></script>
+    <style>
+        .under{
+            height: 1000px;
+            background-color: white;
+        }
+
+        .add{
+            width: 100%;
+            background-color: white;
+            height:1000px;
+            opacity: 0.8;      /*透明度的问题，加跟北京一样的颜色，覆盖掉最底部的颜色，然后调透明度。*/
+            /*position: fixed;*/
+            /*margin-top: 0px;*/
+            top: 0px;
+            position: fixed;
+            z-index: 778;
+        }
+        .hide{
+            display:none;
+        }
+        #f{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 888;
+            background-color: white;
+            opacity: 1;
+
+        }
+
+        #f p{
+
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="under">
+    <div class="z1"><button type="button">新增</button></div>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>姓名</td>
+                <td>爱好</td>
+                <td>操作</td>
+            </tr>
+
+        </thead>
+        <tbody class="tbody">
+            <tr class="test">
+                <td class="fix">1</td>
+                <td >周奕明</td>
+                <td>play</td>
+                <td><button class="edit" type="button">编辑</button>
+               <button class="del">删除</button></td>
+
+
+        </tbody>
+
+
+
+    </table>
+</div>
+<div class="add hide">
+    <form id="f" action="">
+        <p>名字:<input type="text" value=""></p>
+
+
+        <p>爱好:<input type="text" value=""></p>
+
+        <!--<button class="put_up" style="margin-left:30px " type="button">提交</button>-->
+        <button class="put_up" style="margin-left:30px " type="button" value="提交">提交</button>
+
+        <button class="clear" style="margin-left: 20px" type="button">清空</button>
+        <button class="quit" style="margin-left: 20px">退出</button>
+
+    </form>
+</div>
+
+
+
+
+<script>
+    <!--新增的函数-->
+    $('.z1 button').click(function () {
+        $('.add').removeClass('hide');
+    })
+//    提交的函数,新增
+    $('.put_up').click(function () {
+        var user_put = $($('.add input')[0]).prop('value')
+        var hobby_put =  $($('.add input')[1]).prop('value')
+        var arr=[];
+            arr.push(user_put)
+            arr.push(hobby_put)
+
+
+         num2 = $('.tbody tr').length
+        s= '<tr> <td class="fix">num</td> <td>user</td> <td>hobby</td> <td> <button class="edit" type="button">编辑</button> <button class="del">删除</button> </td></tr>'
+        s= s.replace('num',num2+1)
+        s= s.replace('user',user_put)
+        s=s.replace('hobby',hobby_put)
+        $('.add').addClass('hide')
+        $('.tbody').append(s)
+        edit()                //这时候由于绑定是在定义的时候发生的，所以需要重新执行一下
+        del()
+
+    })
+
+//    清空的函数
+    $('.clear').click(function () {
+            $('.add input').prop('value','');
+
+
+    })
+
+//    退出的函数
+    $('.quit').click(function () {
+        $('.add').addClass('hide');
+
+    })
+
+//编辑
+
+    function edit() {
+
+     $('.edit').click(function () {
+            console.log($('.edit'))
+            console.log(this)
+            fix = $('.fix')
+            console.log($(this).parent().prevUntil(fix,'td'))  //!!fix是dom对象或者jquery对象，td是属性的标签，until不包含尾部
+            temp = $(this).parent().prevUntil(fix,'td')
+            temp.html('<input type="text">')
+        })}
+        edit()
+//删除
+    function del() {
+        $('.del').click(function () {
+            console.log($(this).parent().parent())
+            console.log( $('.tbody'))
+            $(this).parent().parent().remove()   //删除标签
+//            $('.tbody').remove($(this).parent().parent())
+//            $('tr').remove('$(this).parent().parent()');
+//            console.log($(this).parent().parent())
+            so_rt()
+        })
+
+    }
+
+    function so_rt() {
+        for (var k=0;k<$('.fix').length;k++){
+            $($('.fix')[k]).text(k+1)
+            console.log('start_sort')
+        }
+    }
+
+
+//        del()
+
+
+
+</script>
+
+
+
+</body>
+</html>
+
+<!--比较麻烦的点在于，1.添加的时候的自增id的问题，2.添加的时候，将你想要添加的节点做成模版的状态，之后在向里面传值，3.设置隐藏之类的属性的时候，
+先定义一个类，在script内写命令，将这个类添加到想获得这个属性的classlist中，4,在改的时候，将元素类型切换，变成input形式-->
+
+<!--在进行自增id功能的实现的时候，开始构想的是查找#标签的数量,然后添加的时候进行+1操作，但是在进行删除操作的时候，一旦删除中间的那个，之后添加会出现相同id的情况-->
+<!--想法一：在添加操作中，for循环剔除重复的id，然后进行重新排序.这种id可以不变，这种（暂时没有搞）-->
+<!--想法二：直接将序号列，重新排序，在删除，添加操作之后.这种id变化。#

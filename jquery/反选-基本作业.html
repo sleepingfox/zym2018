@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>反选</title>
+    <script src="jquery_js.js"></script>
+</head>
+<body>
+<table border="1px">
+    <thead>
+        <tr>
+            <td>序号</td>
+            <td>内容1</td>
+            <td>内容2</td>
+
+        </tr>
+
+
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><input type="checkbox" class="c1" name="chosse" value="1"></td>
+            <td>123</td>
+            <td>456</td>
+
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="c1"></td>
+            <td>123</td>
+            <td>456</td>
+
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" class="c1"></td>
+            <td>123</td>
+            <td>456</td>
+
+        </tr>
+
+        <tr class="bton">
+            <td><button class="bton-all">全选</button></td>
+            <td><button class="bton-f">反选</button></td>
+            <td><button class="bton-b">取消</button></td>
+
+        </tr>
+
+
+    </tbody>
+
+
+
+
+
+</table>
+
+<script>
+    <!--全选属性-->
+//    绑定button
+    $('.bton-all').click(function () {
+
+//    $('input').prop('checked',true)
+//        console.log(aaa)
+
+        $('[type=checkbox]').prop('checked',true)
+
+    })
+
+
+
+//    反选
+    $('.bton-f').click(function () {
+//        for (var i=0;i<$('[type=checkbox]').length;i++)
+//        {
+//            if
+//        }
+        console.log('start')
+        var a =$('[type=checkbox]');
+        for (var i=0;i<a.length;i++) {    //i是数字
+            if ($(a[i]).prop('checked')==true){
+                $(a[i]).prop('checked',false);
+            } else {
+                $(a[i]).prop('checked',true);
+            }
+        }
+
+    })
+
+//    取消
+    $('.bton-b').click(function () {
+
+            $('[type=checkbox]').prop('checked',false);
+
+    })
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>
